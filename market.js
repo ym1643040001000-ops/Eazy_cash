@@ -1,0 +1,3 @@
+import coins from '../data/coins.json';
+import Link from 'next/link';
+export default function Market(){ return (<div className="py-8"><h2 className="text-2xl mb-4">سوق العملات</h2><div className="grid" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:12}}>{coins.map(c=> (<div key={c.id} className='card'><div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}><div><strong>{c.name}</strong><div className='small'>{c.symbol}</div></div><div style={{fontWeight:700}}>{c.price} E£</div></div><div style={{marginTop:10}}><Link href={'/coin/'+c.id} className='btn btn-primary'>اشترِ</Link></div></div>))}</div></div>); }

@@ -1,0 +1,5 @@
+import { useState } from 'react';
+import { auth, db } from '@/lib/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+export default function Withdraw(){ const [amt,setAmt]=useState(''); const [acc,setAcc]=useState(''); const [msg,setMsg]=useState(''); const [user,setUser]=useState(null); onAuthStateChanged(auth,u=>setUser(u)); const submit=async()=>{ if(!user){alert('سجل دخول');return;} await addDoc(collection(db,'payments'),{userId:user.uid,amount:Number(amt),account:acc,type:'withdraw',status:'pending',createdAt:serverTimestamp()}); setMsg('تم إرسال طلب السحب'); }; return (<div className='py-8'><h2 className='text-2xl mb-4'>سحب</h2><div className='card max-w-md'><input className='input' placeholder='المبلغ' value={amt} onChange={e=>setAmt(e.target.value)}/><input className='input' placeholder='بيانات الاستلام' value={acc} onChange={e=>setAcc(e.target.value)}/><div style={{marginTop:8}}><button className='btn btn-primary' onClick={submit}>تأكيد سحب</button></div>{msg && <div className='small mt-2'>{msg}</div>}</div></div>); }
